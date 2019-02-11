@@ -2,7 +2,7 @@
 	"presets": [["@babel/env", { "modules": false }]],
 	"env": {
 		"test": {
-			"presets": ["@babel/env"],
+			"presets": ["@babel/env", "@babel/preset-react"]
 		}
 	}
 }
