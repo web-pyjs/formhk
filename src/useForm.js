@@ -26,42 +26,42 @@ export default (initState, Schema = null) => {
 
   // Handlers
 
-  /**
-   * change is an handler callback for changing the value of one field of
-   * the state.
-   * @param {value | target | name} first
-   * @param {name} second
-   */
-  // eslint-disable-next-line consistent-return
-  const change = (first, second) => {
-    if (first instanceof Event) {
-      /**
-       * first is an Event so then the value and the name is in target
-       * attribute.
-       * - Example: <input onChange={change}/>
-       */
-      setValue(first.target.name, first.target.value);
-    } else if (second === undefined) {
-      /**
-       * first is not Event and second argument is undefined then
-       * the first argument is the name of the field we return function
-       * to get the event.
-       * - Example : <input onChange={change('username')} />
-       */
-      return e => setValue(first, e.target.value);
-    }
-    if (first && second) {
-      /**
-       * the first & the second argument have value then
-       * first is the value and second is the name.
-       * - Example : <inputText onChange={change}/>
-       */
-      setValue(second, first);
-    }
-  };
-
   const handlers = {
-    change
+    /**
+     * change is an handler callback for changing the value of one field of
+     * the state.
+     * @param {value | target | name} first
+     * @param {name} second
+     */
+    // eslint-disable-next-line consistent-return
+    change: (first, second) => {
+      if (first instanceof Event) {
+        /**
+         * first is an Event so then the value and the name is in target
+         * attribute.
+         * - Example: <input onChange={change}/>
+         */
+        setValue(first.target.name, first.target.value);
+      } else if (second === undefined) {
+        /**
+         * first is not Event and second argument is undefined then
+         * the first argument is the name of the field we return function
+         * to get the event.
+         * - Example : <input onChange={change('username')} />
+         */
+        return e => setValue(first, e.target.value);
+      }
+      if (first && second) {
+        /**
+         * the first & the second argument have value then
+         * first is the value and second is the name.
+         * - Example : <inputText onChange={change}/>
+         */
+        setValue(second, first);
+      }
+    },
+    // handler to reset the state
+    reset: () => setState(initFromState)
   };
 
   // Indicators
