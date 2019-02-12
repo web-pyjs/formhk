@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { omit, objEquals } from "./utils";
+import { omit, objEquals, getValue } from "./utils";
 
 /**
  * useFrom is React hook for managing from state and actions.
@@ -11,7 +11,7 @@ export default (initState, Schema) => {
    errors to initialState.
   */
   const initFromState =
-    Schema !== null ? { ...initState, errors: {} } : initState;
+    Schema !== undefined ? { ...initState, errors: {} } : initState;
 
   /**
    * Use react hook useState to create state with $initFromstate object.
@@ -47,7 +47,7 @@ export default (initState, Schema) => {
 
   const handlers = {
     handleChange: name => e =>
-      setValue(name, e instanceof Event ? e.target.value : e),
+      setValue(name, e.target ? getValue(e.target) : e),
     handleError: name => () => setError(name),
     // handler to reset the state
     handleReset: () => setState(initFromState),
