@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { omit, objEquals } from "./utils";
 
 /**
  * useFrom is React hook for managing from state and actions.
@@ -32,7 +33,7 @@ export default (initState, Schema) => {
     if (isValid === true) {
       setState({
         ...state,
-        errors: { ...state.errors, [name]: undefined }
+        errors: omit(state.errors, name)
       });
     } else {
       setState({
@@ -45,63 +46,16 @@ export default (initState, Schema) => {
   // Handlers
 
   const handlers = {
-    /**
-     * change is an handler callback for changing the value of one field of
-     * the state.
-     * @param {value | target | name} first
-     * @param {name} second
-     */
-    // eslint-disable-next-line consistent-return
-    handleChange: (first, second) => {
-      if (first instanceof Event) {
-        /**
-         * first is an Event so then the value and the name is in target
-         * attribute.
-         * - Example: <input onChange={change}/>
-         */
-        setValue(first.target.name, first.target.value);
-      } else if (second === undefined) {
-        /**
-         * first is not Event and second argument is undefined then
-         * the first argument is the name of the field we return function
-         * to get the event.
-         * - Example : <input onChange={change('username')} />
-         */
-        return e => setValue(first, e.target.value);
-      }
-      if (first && second) {
-        /**
-         * the first & the second argument have value then
-         * first is the value and second is the name.
-         * - Example : <inputText onChange={change}/>
-         */
-        setValue(second, first);
-      }
-    },
-    // eslint-disable-next-line consistent-return
-    handleError: element => {
-      // Only handle Error if schema is available
-      if (Schema !== undefined) {
-        // check if element variable is an event
-        if (element instanceof Event) {
-          // get element name from target
-          setError(element.target.name);
-        } else {
-          // the the element is the name
-          return () => setError(element);
-        }
-      }
-    },
+    handleChange: name => e =>
+      setValue(name, e instanceof Event ? e.target.value : e),
+    handleError: name => () => setError(name),
     // handler to reset the state
     handleReset: () => setState(initFromState),
     // Handler to reset errors
     handleResetErrors: () => setState({ ...state, errors: {} }),
     // Handler to reset error of one field
     handleResetError: name =>
-      setState({
-        ...state,
-        errors: { ...state.errors, [name]: undefined }
-      }),
+      setState({ ...state, errors: omit(state.obj, name) }),
     handleSubmit: fun => () =>
       Schema.validate(state, { verbose: true, async: true })
         .then(data => fun(data))
@@ -111,9 +65,11 @@ export default (initState, Schema) => {
   // Indicators
 
   const indicators = {
-    isChange:
-      JSON.stringify(initFromState) !==
-      JSON.stringify(Schema ? { ...state, errors: {} } : state)
+    isInitState: objEquals(
+      initFromState,
+      Schema ? { ...state, errors: {} } : state
+    ),
+    hasErrors: !objEquals(state.errors, {})
   };
 
   return [state, handlers, indicators];
