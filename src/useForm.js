@@ -4,7 +4,7 @@ import { useState } from "react";
  * useFrom is React hook for managing from state and actions.
  */
 
-export default (initState, Schema = null) => {
+export default (initState, Schema) => {
   /*
    If validation Schema is not null then add empty object with the name
    errors to initialState.
@@ -23,6 +23,24 @@ export default (initState, Schema = null) => {
    * @param {any} value
    */
   const setValue = (name, value) => setState({ ...state, [name]: value });
+
+  const setError = name => {
+    const isValid = Schema[name].validate(state[name], {
+      verbose: true,
+      values: state
+    });
+    if (isValid === true) {
+      setState({
+        ...state,
+        errors: { ...state.errors, [name]: undefined }
+      });
+    } else {
+      setState({
+        ...state,
+        errors: { ...state.errors, [name]: isValid }
+      });
+    }
+  };
 
   // Handlers
 
@@ -60,8 +78,34 @@ export default (initState, Schema = null) => {
         setValue(second, first);
       }
     },
+    // eslint-disable-next-line consistent-return
+    handleError: element => {
+      // Only handle Error if schema is available
+      if (Schema !== undefined) {
+        // check if element variable is an event
+        if (element instanceof Event) {
+          // get element name from target
+          setError(element.target.name);
+        } else {
+          // the the element is the name
+          return () => setError(element);
+        }
+      }
+    },
     // handler to reset the state
-    handleReset: () => setState(initFromState)
+    handleReset: () => setState(initFromState),
+    // Handler to reset errors
+    handleResetErrors: () => setState({ ...state, errors: {} }),
+    // Handler to reset error of one field
+    handleResetError: name =>
+      setState({
+        ...state,
+        errors: { ...state.errors, [name]: undefined }
+      }),
+    handleSubmit: fun => () =>
+      Schema.validate(state, { verbose: true, async: true })
+        .then(data => fun(data))
+        .catch(errors => setState({ ...state, errors }))
   };
 
   // Indicators
