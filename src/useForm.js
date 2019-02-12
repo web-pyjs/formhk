@@ -6,8 +6,8 @@ import { useState } from "react";
 
 export default (initState, Schema = null) => {
   /*
-   If validation Schema is not null then add empty object with name errors
-   initial state.
+   If validation Schema is not null then add empty object with the name
+   errors to initialState.
   */
   const initFromState =
     Schema !== null ? { ...initState, errors: {} } : initState;
@@ -18,7 +18,7 @@ export default (initState, Schema = null) => {
   const [state, setState] = useState(initFromState);
 
   /**
-   * setValue is function to set the value of one field in the state by name.
+   * setValue is a function to set the value of one field in the state by name.
    * @param {string} name
    * @param {any} value
    */
@@ -34,7 +34,7 @@ export default (initState, Schema = null) => {
      * @param {name} second
      */
     // eslint-disable-next-line consistent-return
-    change: (first, second) => {
+    handleChange: (first, second) => {
       if (first instanceof Event) {
         /**
          * first is an Event so then the value and the name is in target
@@ -61,7 +61,7 @@ export default (initState, Schema = null) => {
       }
     },
     // handler to reset the state
-    reset: () => setState(initFromState)
+    handleReset: () => setState(initFromState)
   };
 
   // Indicators
