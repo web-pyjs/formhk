@@ -1,11 +1,11 @@
 {
-	"name": "form-hooks",
+	"name": "formhk",
 	"version": "0.0.1",
 	"repository": {
 		"type": "git",
 		"url": ""
 	},
-	"description": "React Hooks for form state managmente",
+	"description": "React Hooks for form state management",
 	"maintainers": [
 		"soufiane nassih"
 	],
