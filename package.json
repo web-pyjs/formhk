@@ -1,6 +1,6 @@
 {
 	"name": "formhk",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"repository": {
 		"type": "git",
 		"url": ""
@@ -9,12 +9,14 @@
 	"maintainers": [
 		"soufiane nassih"
 	],
-	"main": "lib/cjs.js",
-	"module": "lib/es.js",
+	"main": "lib/formhk.cjs.js",
+	"module": "lib/formhk.es.js",
+	"unpkg": "umd/formhk.js",
 	"typings": "index.d.ts",
 	"author": "Nassih soufiane",
 	"files": [
 		"lib",
+		"umd",
 		"index.d.ts"
 	],
 	"license": "MIT",
@@ -47,10 +49,13 @@
 		"regenerator-runtime": "^0.13.1",
 		"rollup": "^1.1.0",
 		"rollup-plugin-babel": "^4.3.0",
-		"rollup-plugin-node-resolve": "^4.0.0"
+		"rollup-plugin-node-resolve": "^4.0.0",
+		"rollup-plugin-replace": "^2.1.0",
+		"rollup-plugin-terser": "^4.0.4"
 	},
 	"scripts": {
 		"build": "rollup -c",
+		"pub": "rollup -c && yarn publish",
 		"watch": "rollup -c -w",
 		"test": "jest",
 		"tc": "jest --coverage && rm -rf ./coverage",
