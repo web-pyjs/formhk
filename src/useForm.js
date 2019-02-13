@@ -56,10 +56,15 @@ export default (initState, Schema) => {
     // Handler to reset error of one field
     handleResetError: name =>
       setState({ ...state, errors: omit(state.obj, name) }),
-    handleSubmit: fun => () =>
-      Schema.validate(state, { verbose: true, async: true })
-        .then(data => fun(data))
-        .catch(errors => setState({ ...state, errors }))
+    handleSubmit: fun => () => {
+      if (Schema) {
+        Schema.validate(state, { verbose: true, async: true })
+          .then(data => fun(data))
+          .catch(errors => setState({ ...state, errors }));
+      } else {
+        fun(state);
+      }
+    }
   };
 
   // Indicators
