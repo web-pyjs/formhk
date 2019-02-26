@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <a href='http://redux.js.org'><img src='https://raw.githubusercontent.com/reyx7/formhk/master/website/static/img/logo.png?token=AfoF-Y432NBCqbnFv6P_bAnYdtC6pz-eks5cbKAtwA%3D%3D' height='200' alt='Redux Logo' aria-label='redux.js.org' /></a>
+    <a href='http://redux.js.org'><img src='https://github.com/reyx7/formhk/blob/master/website/static/img/logo.png?raw=true' height='200' alt='Formhk logo' aria-label='formhk.js.org' /></a>
   </a>
 </p>
 
