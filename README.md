@@ -4,10 +4,5 @@
   </a>
 </p>
 
-Forms are difficult in [React](https://reactjs.org), and it takes almost 70% of time spent in building a web application. Fromhk benefits from the new feature [hooks](https://reactjs.org/docs/hooks-intro.html) to come around this probléme and make a custom hook that will help you manage, validate and master forms.
 
-## docs
-- [Get started]()
-- [Api Reference]()
-- [Examples]()
-- [Need Help?]()
+> **NOTE :** this package is under development.
